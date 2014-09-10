@@ -1,0 +1,23 @@
+#!/usr/bin/zsh
+
+IASSET_HOME=$HOME/workspace
+
+init() {
+	parts start redis
+    nohup $IASSET_HOME/bin/webdis > /dev/null &
+}
+
+start() {
+
+}
+
+main() {
+	cmd=$1
+    if [[ $cmd = 'init' ]]; then
+    	init
+    elif [[ $cmd = 'start' ]]; then
+    	start
+    fi
+}
+
+main $@
