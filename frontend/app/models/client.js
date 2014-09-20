@@ -11,22 +11,22 @@ Client.reopenClass({
     FIXTURES: [
         {
             id: 'random',
-            name: "Ralph Zhang",
-            address: "广东省深圳市金田路4036号",
-            phone: "+86 18682285308",
-            email: "ralph.j.zhang@gmail.com",
+            name: 'Ralph Zhang',
+            address: '广东省深圳市金田路4036号',
+            phone: '+86 18682285308',
+            email: 'ralph.j.zhang@gmail.com',
         },
         {
             id: '2',
-            name: "Sarah Lee",
-            address: "Checkout some more ember stuff",
-            phone: "111",
+            name: 'Sarah Lee',
+            address: 'Checkout some more ember stuff',
+            phone: '111',
         },
         {
             id: '3',
-            name: "Bin Laden",
-            address: "Checkout some more ember stuff",
-            phone: "111",
+            name: 'Bin Laden',
+            address: 'Checkout some more ember stuff',
+            phone: '111',
         }
     ]
 });

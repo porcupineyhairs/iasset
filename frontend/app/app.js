@@ -1,3 +1,4 @@
+'use strict';
 import Ember from 'ember';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
@@ -5,15 +6,15 @@ import loadInitializers from 'ember/load-initializers';
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 Ember.RadioButton = Ember.View.extend({
-    tagName: "input",
-    type: "radio",
+    tagName: 'input',
+    type: 'radio',
     arrBinding: 'App.ApplicationController.content',
-    attributeBindings: ["name", "type", "value", "checked:checked:"],
+    attributeBindings: ['name', 'type', 'value', 'checked:checked:'],
     click: function () {
-        this.set("selection", this.$().val());
+        this.set('selection', this.$().val());
     },
     checked: function () {
-        return this.get("value") === this.get("selection");
+        return this.get('value') === this.get('selection');
     }.property()
 });
 

@@ -1,3 +1,4 @@
+'use strict';
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
@@ -7,32 +8,32 @@ export default Ember.ArrayController.extend({
 
     actions: {
         create: function() {
-            this.set("isEditing", true);
+            this.set('isEditing', true);
             var client = this.store.createRecord('client', { });
-            this.set("editingClient", client);
-            this.set("selectedId", client.get("id"));
-            client.set("name", "新客户" + client.get("id"));
+            this.set('editingClient', client);
+            this.set('selectedId', client.get('id'));
+            client.set('name', '新客户' + client.get('id'));
         },
 
         edit: function() {
-            var client_id = this.get("selectedId");
+            var clientId = this.get('selectedId');
             var self = this;
-            if (client_id) {
-                this.set("isEditing", true);
-                this.store.find('client', client_id).then(function(client) {
-                    self.set("editingClient", client);
+            if (clientId) {
+                this.set('isEditing', true);
+                this.store.find('client', clientId).then(function(client) {
+                    self.set('editingClient', client);
                 });
             }
         },
         
         remove: function() {
-            if (confirm("删除该客户资料？")) {
-                var client_id = this.get("selectedId");
-                if (client_id) {
-                    this.store.find('client', client_id).then(function(client) {
+            if (window.confirm('删除该客户资料？')) {
+                var clientId = this.get('selectedId');
+                if (clientId) {
+                    this.store.find('client', clientId).then(function(client) {
                         client.destroyRecord();
-                        this.set("selectedId", null);
-                        this.set("editingClient", null);
+                        this.set('selectedId', null);
+                        this.set('editingClient', null);
                     });
                 }
             }
@@ -46,10 +47,10 @@ export default Ember.ArrayController.extend({
         cancel: function() {
             var self = this;
             this.set('isEditing', false);
-            var client_id = this.get("selectedId");
+            var clientId = this.get('selectedId');
             // TODO there is a bug here, after some cancel, the button may be wrongly disabled
-            if (client_id) {
-                this.store.find('client', client_id).then(function(client) {
+            if (clientId) {
+                this.store.find('client', clientId).then(function(client) {
                     if (client.get('isNew')) {
                         self.set('selectedId', null);
                         self.set('editingClient', null);
