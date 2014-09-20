@@ -1,0 +1,11 @@
+tmp
+tmp/*
+dist
+dist/*
+*.swp
+*.swo
+node_modules
+node_modules/*
+bower_components
+bower_components/*
+

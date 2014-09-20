@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>IAsset</title>
+    <meta name="author" content="Ralph Zhang">
+    <meta name="description" content="IAsset asset management frontend">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{BASE_TAG}}
+
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/iasset.css">
+  </head>
+  <body>
+    <script>
+      window.IassetENV = {{ENV}};
+      window.EmberENV = window.IassetENV.EmberENV;
+    </script>
+    <script src="assets/vendor.js"></script>
+    <script src="assets/iasset.js"></script>
+    <script>
+      window.Iasset = require('iasset/app')['default'].create(IassetENV.APP);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                交易信息 <small>查看/添加/更改交易资料</small>
+            </h1>
+            <ol class="breadcrumb">
+              <li><i class="fa fa-fw fa-database"></i> 数据中心</li>
+              <li class="active">交易</li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <i class="fa fa-info-circle"></i>  <strong>使用提示：</strong>
+                在这里您可以查看交易
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <h2>交易列表</h2>
+    <div class="row" {{bind-attr style="view.editButtonsStyle"}}>
+      <div class="col-lg-12">
+        <button {{action 'create'}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>新增</button>
+        <button {{action 'edit'}} {{bind-attr disabled="view.disableEditAndRemove"}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i>修改</button>
+        <button {{action 'remove'}} {{bind-attr disabled="view.disableEditAndRemove"}} type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i>删除</button>
+        <p></p>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row" {{bind-attr style="view.editFormStyle"}}>
+      <div class="col-lg-6">
+        <h3>修改交易</h3>
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">姓名</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="inputName" value=editingClient.name}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button {{action 'acceptChanges'}} class="btn btn-primary"><i class="fa fa-fw fa-save"></i>保存</button>
+              <button {{action 'cancel'}} class="btn btn-primary"><i class="fa fa-fw fa-close"></i>放弃</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- /.row -->
+
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>姓名 <i class="fa fa-sort"></i></th>
+                <th>地址 <i class="fa fa-sort"></i></th>
+                <th>电话 <i class="fa fa-sort"></i></th>
+                <th>Email <i class="fa fa-sort"></i></th>
+              </tr>
+            </thead>
+            <tbody id="deal-list">
+              {{#each deal in model}}
+              <tr>
+                <td>{{view Ember.RadioButton name="dealSelection" selection=this.controller.selectedId valueBinding="deal.id"}}</td>
+                <td>{{deal.id}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+      </div>
+    </div>
+    <!-- /.row -->
+
+</div>

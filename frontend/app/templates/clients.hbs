@@ -1,0 +1,150 @@
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                客户信息 <small>查看/添加/更改客户资料</small>
+            </h1>
+            <ol class="breadcrumb">
+              <li><i class="fa fa-fw fa-database"></i> 数据中心</li>
+              <li class="active">客户</li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <i class="fa fa-info-circle"></i>  <strong>使用提示：</strong>
+                在这里您可以查看客户资料，点击客户资料表的表头可以对资料进行排序，点击每一行的编辑按钮可以对该客户资料进行编辑，点击删除按钮可以删除客户资料。
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <h2>客户列表</h2>
+    <div class="row" {{bind-attr style="view.editButtonsStyle"}}>
+      <div class="col-lg-12">
+        <button {{action 'create'}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>新增</button>
+        <button {{action 'edit'}} {{bind-attr disabled="view.disableEditAndRemove"}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i>修改</button>
+        <button {{action 'remove'}} {{bind-attr disabled="view.disableEditAndRemove"}} type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i>删除</button>
+        <p></p>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row" {{bind-attr style="view.editFormStyle"}}>
+      <div class="col-lg-6">
+        <h3>修改客户资料</h3>
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">姓名</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="inputName" value=editingClient.name}}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAddress" class="col-sm-2 control-label">地址</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="inputAddress" value=editingClient.address}}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPhone" class="col-sm-2 control-label">电话</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="inputPhone" value=editingClient.phone}}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="inputEmail" value=editingClient.email}}
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button {{action 'acceptChanges'}} class="btn btn-primary"><i class="fa fa-fw fa-save"></i>保存</button>
+              <button {{action 'cancel'}} class="btn btn-primary"><i class="fa fa-fw fa-close"></i>放弃</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>姓名 <i class="fa fa-sort"></i></th>
+                <th>地址 <i class="fa fa-sort"></i></th>
+                <th>电话 <i class="fa fa-sort"></i></th>
+                <th>Email <i class="fa fa-sort"></i></th>
+              </tr>
+            </thead>
+            <tbody id="client-list">
+              {{#each client in model}}
+              <tr>
+                <td>{{view Ember.RadioButton name="clientSelection" selection=this.controller.selectedId valueBinding="client.id"}}</td>
+                <td>{{client.name}}</td>
+                <td>{{client.address}}</td>
+                <td>{{client.phone}}</td>
+                <td>{{client.email}}</td>
+              </tr>
+              {{/each}}
+              <!--
+              <tr class="active">
+                <td>/index.html</td>
+                <td>1265</td>
+                <td>32.3%</td>
+                <td>$321.33</td>
+              </tr>
+              <tr class="success">
+                <td>/about.html</td>
+                <td>261</td>
+                <td>33.3%</td>
+                <td>$234.12</td>
+              </tr>
+              <tr class="warning">
+                <td>/sales.html</td>
+                <td>665</td>
+                <td>21.3%</td>
+                <td>$16.34</td>
+              </tr>
+              <tr class="danger">
+                <td>/blog.html</td>
+                <td>9516</td>
+                <td>89.3%</td>
+                <td>$1644.43</td>
+              </tr>
+              <tr>
+                <td>/404.html</td>
+                <td>23</td>
+                <td>34.3%</td>
+                <td>$23.52</td>
+              </tr>
+              <tr>
+                <td>/services.html</td>
+                <td>421</td>
+                <td>60.3%</td>
+                <td>$724.32</td>
+              </tr>
+              <tr>
+                <td>/blog/post.html</td>
+                <td>1233</td>
+                <td>93.2%</td>
+                <td>$126.34</td>
+              </tr>
+              -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /.row -->
+
+</div>
