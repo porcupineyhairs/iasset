@@ -6,6 +6,21 @@ export default Ember.ArrayController.extend({
     isEditing: false,
     editingClient: null,
 
+    editButtonsStyle: function() {
+        var isEditing = this.get('isEditing');
+        return isEditing ? 'display: none' : 'display: block';
+    }.property('isEditing'),
+
+    editFormStyle: function() {
+        var isEditing = this.get('isEditing');
+        return isEditing ? 'display: block' : 'display: none';
+    }.property('isEditing'),
+
+    disableEditAndRemove: function() {
+        var clientSelected = this.get('selectedId');
+        return clientSelected === null;
+    }.property('selectedId'),
+
     actions: {
         create: function() {
             this.set('isEditing', true);

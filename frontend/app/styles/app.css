@@ -1,6 +1,4 @@
-/* html, body {
-  margin: 20px;
-}*/
+/* IAsset specific overrides */
 
 /*!
  * Start Bootstrap - SB Admin Bootstrap Admin Template (http://startbootstrap.com)
@@ -226,3 +224,4 @@ ul.alert-dropdown {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+

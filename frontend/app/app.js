@@ -2,6 +2,7 @@
 import Ember from 'ember';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
+import Quoter from 'iasset/utils/quotes';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
@@ -24,5 +25,7 @@ var App = Ember.Application.extend({
 });
 
 loadInitializers(App, 'iasset');
+
+App.quoter = Quoter.create();
 
 export default App;

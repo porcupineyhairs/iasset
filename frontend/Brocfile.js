@@ -25,6 +25,10 @@ app.import('bower_components/fontawesome/fonts/fontawesome-webfont.woff', { dest
 app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', { destDir: 'fonts' });
 
 // ----- vendor js imports ----- //
+app.import('bower_components/ic-ajax/dist/globals/main.js');
+app.import('bower_components/ember-addons.bs_for_ember/dist/js/bs-core.min.js');
+app.import('bower_components/ember-addons.bs_for_ember/dist/js/bs-button.min.js');
+app.import('bower_components/ember-forms/dist/globals/main.js');
 app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
 app.import('bower_components/morrisjs/morris.min.js');
 app.import('bower_components/raphael/raphael-min.js');

@@ -24,18 +24,50 @@
     </div>
     <!-- /.row -->
 
+{{!-- using bootstrap-for-ember
     <h2>客户列表</h2>
-    <div class="row" {{bind-attr style="view.editButtonsStyle"}}>
+    <div class="row" {{bind-attr style="editButtonsStyle"}}>
       <div class="col-lg-12">
-        <button {{action 'create'}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>新增</button>
-        <button {{action 'edit'}} {{bind-attr disabled="view.disableEditAndRemove"}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i>修改</button>
-        <button {{action 'remove'}} {{bind-attr disabled="view.disableEditAndRemove"}} type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i>删除</button>
+        {{bs-button clicked='create' type='primary' icon='fa fa-fw fa-plus' title='新增'}}
+        {{bs-button clicked='edit' type='primary' icon='fa fa-fw fa-edit' title='修改' disabled='disableEditAndRemove'}}
+        {{bs-button clicked='remove' type='danger' icon='fa fa-fw fa-trash' title='删除' disabled='disableEditAndRemove'}}
         <p></p>
       </div>
     </div>
     <!-- /.row -->
 
-    <div class="row" {{bind-attr style="view.editFormStyle"}}>
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>修改客户资料</h3>
+        {{#em-form form_layout='horizontal' model=editingClient submit_button=false}}
+            {{em-input label='姓名' property='name'}}
+            {{em-input label='地址' property='address'}}
+            {{em-input label='电话' property='phone'}}
+            {{em-input label='Email' property='email' type='email'}}
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button {{action 'acceptChanges'}} class="btn btn-primary"><i class="fa fa-fw fa-save"></i>保存</button>
+                <button {{action 'cancel'}} class="btn btn-primary"><i class="fa fa-fw fa-close"></i>放弃</button>
+              </div>
+            </div>
+        {{/em-form}}
+      </div>
+    </div>
+    <!-- /.row -->
+--}}
+
+    <h2>客户列表</h2>
+    <div class="row" {{bind-attr style="editButtonsStyle"}}>
+      <div class="col-lg-12">
+        <button {{action 'create'}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>新增</button>
+        <button {{action 'edit'}} {{bind-attr disabled="disableEditAndRemove"}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i>修改</button>
+        <button {{action 'remove'}} {{bind-attr disabled="disableEditAndRemove"}} type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i>删除</button>
+        <p></p>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row" {{bind-attr style="editFormStyle"}}>
       <div class="col-lg-6">
         <h3>修改客户资料</h3>
         <form class="form-horizontal" role="form">
@@ -88,59 +120,15 @@
               </tr>
             </thead>
             <tbody id="client-list">
-              {{#each client in model}}
+              {{#each}}
               <tr>
-                <td>{{view Ember.RadioButton name="clientSelection" selection=this.controller.selectedId valueBinding="client.id"}}</td>
-                <td>{{client.name}}</td>
-                <td>{{client.address}}</td>
-                <td>{{client.phone}}</td>
-                <td>{{client.email}}</td>
+                <td>{{view Ember.RadioButton name="clientSelection" selection=this.controller.selectedId valueBinding="id"}}</td>
+                <td>{{name}}</td>
+                <td>{{address}}</td>
+                <td>{{phone}}</td>
+                <td>{{email}}</td>
               </tr>
               {{/each}}
-              <!--
-              <tr class="active">
-                <td>/index.html</td>
-                <td>1265</td>
-                <td>32.3%</td>
-                <td>$321.33</td>
-              </tr>
-              <tr class="success">
-                <td>/about.html</td>
-                <td>261</td>
-                <td>33.3%</td>
-                <td>$234.12</td>
-              </tr>
-              <tr class="warning">
-                <td>/sales.html</td>
-                <td>665</td>
-                <td>21.3%</td>
-                <td>$16.34</td>
-              </tr>
-              <tr class="danger">
-                <td>/blog.html</td>
-                <td>9516</td>
-                <td>89.3%</td>
-                <td>$1644.43</td>
-              </tr>
-              <tr>
-                <td>/404.html</td>
-                <td>23</td>
-                <td>34.3%</td>
-                <td>$23.52</td>
-              </tr>
-              <tr>
-                <td>/services.html</td>
-                <td>421</td>
-                <td>60.3%</td>
-                <td>$724.32</td>
-              </tr>
-              <tr>
-                <td>/blog/post.html</td>
-                <td>1233</td>
-                <td>93.2%</td>
-                <td>$126.34</td>
-              </tr>
-              -->
             </tbody>
           </table>
         </div>

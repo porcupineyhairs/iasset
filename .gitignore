@@ -1,4 +1,7 @@
 *.swp
 *.swo
 *.log
+*/.ropeproject
+*/.ropeproject/*
+.DS_Store
 
