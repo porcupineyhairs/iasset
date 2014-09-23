@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import Quotes from 'iasset/utils/quotes';
 
 export default Ember.ArrayController.extend({
     itemController: 'deal',

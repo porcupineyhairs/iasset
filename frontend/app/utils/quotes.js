@@ -1,15 +1,10 @@
 'use strict';
 import Ember from 'ember';
 import Pollster from 'iasset/utils/pollster';
-
-/* global ic */
-var ajax = ic.ajax;
-
-var Quotes = Ember.Object.extend({
-});
+import SinaQuoter from 'iasset/utils/sina_quoter';
 
 export default Ember.Object.extend(Ember.Evented, {
-    baseQuoteUrl: 'http://hq.sinajs.cn/list=',
+    quoter: SinaQuoter.create(),
 
     getQuote: function(symbol) {
         var quotes = this.get('quotes');
@@ -19,36 +14,24 @@ export default Ember.Object.extend(Ember.Evented, {
         return quotes[symbol];
     },
 
-    updateQuotes: function() {
+    requestQuotes: function() {
         var quotes = this.get('quotes');
-        for (var symbol in quotes) {
-            var symbolArray = symbol.split('.');
-            if (['sh', 'SH', 'ss', 'SS'].contains(symbolArray[1])) {
-                symbolArray[1] = 'sh';
-            }
-            else if (['sz', 'SZ'].contains(symbolArray[1])) {
-                symbolArray[1] = 'sz';
-            }
+        var symbols = [];
+        var self = this;
+        for (var symbol in quotes) { symbols.push(symbol); }
 
-            var sinaSymbol = symbolArray[1] + symbolArray[0];
-            var quoteUrl = this.baseQuoteUrl + sinaSymbol;
-            console.log('Requesting quote from: ' + quoteUrl);
-            var self = this;
-            return ajax.request(quoteUrl).then(function (quoteReturn) {
-                var parsed = self._parseQuoteReturn(quoteReturn);
-                parsed.symbol = symbol;
-                parsed.timeStamp = Date.now(); // milliseconds since epoch
-                console.log('Got quote: ', parsed);
-                quotes[symbol] = parsed;
-            });
-        }
-    },
-
-    _parseQuoteReturn: function (quoteReturn) {
-        var retArray = quoteReturn.split('="')[1].split(',');
-        var stockName = retArray[0];
-        var lastPrice = retArray[1];
-        return { name: stockName, lastPrice: lastPrice };
+        // start send quote request, and update local quote cache on response
+        this.quoter.requestQuotes(symbols, function(newQuotes) {
+            var quotes = self.get('quotes');
+            var symbols = [];
+            for (var symbol in quotes) { symbols.push(symbol); }
+            if (newQuotes) {
+                console.log('Got new quotes: ', newQuotes);
+                for (var i = 0; i < newQuotes.length; ++i) {
+                    quotes[newQuotes[i].symbol] = newQuotes[i];
+                }
+            }
+        });
     },
 
     init: function() {
@@ -57,11 +40,14 @@ export default Ember.Object.extend(Ember.Evented, {
         if (Ember.isNone(this.get('pollster'))) {
             this.set('pollster', Pollster.create({
                 onPoll: function() {
-                    self.updateQuotes();
+                    self.requestQuotes();
                     self.trigger('quote');
                 }
             }));
         }
+    },
+
+    start: function() {
         this.get('pollster').start();
     },
 });

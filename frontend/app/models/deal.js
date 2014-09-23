@@ -20,6 +20,14 @@ Deal.reopenClass({
             warningLevel: 0.75,
             dangerLevel: 0.7,
         },
+        {
+            id: 'deal2',
+            dealCode: 'deal-cde',
+            ulSymbol: '600036.SH',
+            ulQuantity: 3333333,
+            warningLevel: 0.75,
+            dangerLevel: 0.7,
+        },
     ]
 });
 
