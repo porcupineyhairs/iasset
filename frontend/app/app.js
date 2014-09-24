@@ -27,6 +27,6 @@ var App = Ember.Application.extend({
 loadInitializers(App, 'iasset');
 
 App.quoter = Quoter.create();
-App.quoter.start();
+// App.quoter.start();
 
 export default App;

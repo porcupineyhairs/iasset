@@ -17,8 +17,7 @@ export default Ember.ArrayController.extend({
     }.property('isEditing'),
 
     disableEditAndRemove: function() {
-        var clientSelected = this.get('selectedId');
-        return clientSelected === null;
+        return this.get('selectedId') === null;
     }.property('selectedId'),
 
     actions: {

@@ -73,15 +73,15 @@
               </tr>
             </thead>
             <tbody id="deal-list">
-              {{#each controller}}
+              {{#each deal in controller itemController='deal'}}
               <tr {{bind-attr class='riskLevel'}}>
-                <td>{{view Ember.RadioButton name="dealSelection" selection=this.controller.selectedId valueBinding="id"}}</td>
-                <td>{{dealCode}}</td>
-                <td>{{counterpartyName}}</td>
-                <td>{{ulName}}</td>
-                <td>{{ulQuantity}}</td>
-                <td>{{ulLastPrice}}</td>
-                <td>{{alpha}}</td>
+                <td>{{view Ember.RadioButton name="dealSelection" selection=controllers.deals.selectedId valueBinding="deal.id"}} {{deal.id}}</td>
+                <td>{{deal.dealCode}}</td>
+                <td>{{deal.counterpartyName}}</td>
+                <td>{{deal.ulName}}</td>
+                <td>{{deal.ulQuantity}}</td>
+                <td>{{deal.ulLastPrice}}</td>
+                <td>{{deal.alpha}}</td>
               </tr>
               {{/each}}
             </tbody>
