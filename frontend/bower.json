@@ -18,6 +18,9 @@
     "ic-ajax": null,
     "ember-forms": null,
     "ember-addons.bs_for_ember": null,
+    "ember-cli-simple-auth": null,
+    "ember-date-picker": null,
+    "JavaScript-MD5": null,
     "morrisjs": null,
     "raphael": null
   }

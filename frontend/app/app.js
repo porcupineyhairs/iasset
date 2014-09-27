@@ -20,8 +20,8 @@ Ember.RadioButton = Ember.View.extend({
 });
 
 var App = Ember.Application.extend({
-  modulePrefix: 'iasset', // TODO: loaded via config
-  Resolver: Resolver
+    modulePrefix: 'iasset', // TODO: loaded via config
+    Resolver: Resolver
 });
 
 loadInitializers(App, 'iasset');
