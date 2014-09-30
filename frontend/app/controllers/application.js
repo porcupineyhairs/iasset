@@ -2,7 +2,7 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-    needs: ['user'],
+    needs: ['user', 'login'],
 
     userDisplayName: function() {
         var user = this.get('controllers.user');
@@ -12,4 +12,7 @@ export default Ember.ObjectController.extend({
         }
         return displayName;
     }.property(),
+
+    actions: {
+    },
 });

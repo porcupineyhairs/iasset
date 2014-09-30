@@ -110,7 +110,11 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> 登出</a>
+                            {{#if session.isAuthenticated}}
+                                <a {{action 'invalidateSession'}}><i class="fa fa-fw fa-power-off"></i> 登出</a>
+                            {{else}}
+                                {{#link-to 'login'}}<i class="fa fa-unlock-alt fa-fw"></i> 登陆{{/link-to}}
+                            {{/if}}
                         </li>
                     </ul>
                 </li>

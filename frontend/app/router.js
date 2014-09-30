@@ -9,6 +9,9 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+    this.route('application');
+    this.route('login');
+
     this.resource('dashboard', function() {
     });
     this.resource('risk', function() {

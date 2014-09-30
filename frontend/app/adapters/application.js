@@ -1,6 +1,7 @@
 'use strict';
 import DS from 'ember-data';
 
+/*
 export default DS.RESTAdapter.extend({
     host: 'http://localhost:5000',
     namespace: 'api/v1',
@@ -43,9 +44,11 @@ export default DS.RESTAdapter.extend({
         return this._super(url, type, options);
     },
 });
+*/
 
-/*
 // fixture data for testing
 export default DS.FixtureAdapter.extend({
+    queryFixtures: function(fixtureData) {
+        return [fixtureData[0]];
+    },
 });
-*/

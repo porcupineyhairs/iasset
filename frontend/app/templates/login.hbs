@@ -1,0 +1,52 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                登陆 IAsset
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"> <i class="fa fa-fw fa-user"></i> 登陆</li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-user fa-fw"></i> 登陆 IAsset </h3>
+                </div>
+                <div class="panel-body">
+                    <form {{action "login" on='submit'}}>
+                        {{#if showLoginFailed}}
+                        <div class="alert alert-danger">
+                            <strong><i class="fa fa-fw fa-exclamation-circle"></i> 登陆失败</strong> 用户名或密码错误 
+                        </div
+                        {{/if}}
+
+                        <div class="form-group">
+                            <label for="username">用户名</label>
+                            {{input id="username" value=username class="form-control" type="text" placeholder="用户名"}}
+                            <p class="help-block"></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            {{input id="password" value=password class="form-control" type="password" placeholder="密码"}}
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-unlock-alt fa-fw"></i> 登入</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container-fluid -->
+
+

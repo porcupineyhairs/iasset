@@ -12,16 +12,15 @@
     "ember-qunit": "0.1.8",
     "ember-qunit-notifications": "0.0.4",
     "qunit": "~1.15.0",
-
     "bootstrap": null,
     "fontawesome": null,
     "ic-ajax": null,
     "ember-forms": null,
     "ember-addons.bs_for_ember": null,
-    "ember-cli-simple-auth": null,
     "ember-date-picker": null,
     "JavaScript-MD5": null,
     "morrisjs": null,
-    "raphael": null
+    "raphael": null,
+    "ember-simple-auth": "0.6.6"
   }
 }

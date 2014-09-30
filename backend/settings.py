@@ -108,7 +108,7 @@ Deals_schema = {
 }
 
 Users = {
-    'item_title': 'client',
+    'item_title': 'user',
     'additional_lookup': {
         'url': 'regex("[\w]+")',
         'field': 'username'

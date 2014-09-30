@@ -31,7 +31,6 @@ app.import('bower_components/jquery/dist/jquery.min.js');
 app.import('bower_components/ic-ajax/dist/globals/main.js');
 app.import('bower_components/ember-addons.bs_for_ember/dist/js/bs-core.min.js');
 app.import('bower_components/ember-addons.bs_for_ember/dist/js/bs-button.min.js');
-app.import('bower_components/ember-simple-auth/simple-auth.amd.js');
 app.import('bower_components/ember-forms/dist/globals/main.js');
 app.import('bower_components/JavaScript-MD5/js/md5.min.js');
 app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
