@@ -2,7 +2,6 @@ import DS from 'ember-data';
 
 var Deal = DS.Model.extend({
     dealCode: DS.attr('string'),
-    /*
     counterpartyName: DS.attr('string'),
     dealDate: DS.attr('date'),
     expiryDate: DS.attr('date'),
@@ -11,7 +10,6 @@ var Deal = DS.Model.extend({
     ulQuantity: DS.attr('number'),
     warningLevel: DS.attr('number'),
     dangerLevel: DS.attr('number'),
-    */
 });
 
 Deal.reopenClass({

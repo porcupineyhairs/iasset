@@ -6,7 +6,7 @@ export default Ember.ArrayController.extend({
     selectedId: null,
     isEditing: false,
     editingMode: '',
-    editingDeal: null,
+    editingObj: null,
     value1: 'abc',
 
     editButtonsStyle: function() {
@@ -29,13 +29,13 @@ export default Ember.ArrayController.extend({
 
     actions: {
         create: function() {
-            console.log('creating deal.....', this.get('selectedId'));
             this.set('isEditing', true);
-            this.set('editingMode', 'create');
             var deal = this.store.createRecord('deal', { });
-            deal.set('name', 'abc');
+            console.log(deal);
+            this.set('editingObj', deal);
+            this.set('selectedId', deal.get('id'));
+            deal.set('name', '新交易' + deal.get('id'));
             deal.set('dealDate', '2014-09-22');
-            this.set('editingDeal', deal);
         },
 
         edit: function() {
@@ -44,30 +44,33 @@ export default Ember.ArrayController.extend({
             if (dealId) {
                 this.set('isEditing', true);
                 this.store.find('deal', dealId).then(function(deal) {
-                    self.set('editingDeal', deal);
+                    self.set('editingObj', deal);
                 });
             }
         },
- 
+        
         acceptChanges: function() {
+            var self = this;
             this.set('isEditing', false);
-            this.get('model').save();
+            var onSuccess = function(deal) {
+                console.log('save success.');
+            };
+            var onFail = function(deal) {
+                console.log('save failed.');
+                self.get('editingObj').rollback();
+            };
+            this.get('editingObj').save().then(onSuccess, onFail);
         },
 
         cancel: function() {
             var self = this;
             this.set('isEditing', false);
-            var dealId = this.get('selectedId');
-            // TODO there is a bug here, after some cancel, the button may be wrongly disabled
-            if (dealId) {
-                this.store.find('deal', dealId).then(function(deal) {
-                    if (client.get('isNew')) {
-                        self.set('selectedId', null);
-                        self.set('editingDeal', null);
-                    }
-                    deal.rollback();
-                });
+            var deal = this.get('editingObj');
+            if (deal.get('isNew')) {
+                self.set('selectedId', null);
+                self.set('editingObj', null);
             }
+            deal.rollback();
         },
 
     },

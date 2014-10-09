@@ -4,7 +4,7 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
     selectedId: null,
     isEditing: false,
-    editingClient: null,
+    editingObj: null,
 
     editButtonsStyle: function() {
         var isEditing = this.get('isEditing');
@@ -25,7 +25,7 @@ export default Ember.ArrayController.extend({
             this.set('isEditing', true);
             var client = this.store.createRecord('client', { });
             console.log(client);
-            this.set('editingClient', client);
+            this.set('editingObj', client);
             this.set('selectedId', client.get('id'));
             client.set('name', '新客户' + client.get('id'));
         },
@@ -36,7 +36,7 @@ export default Ember.ArrayController.extend({
             if (clientId) {
                 this.set('isEditing', true);
                 this.store.find('client', clientId).then(function(client) {
-                    self.set('editingClient', client);
+                    self.set('editingObj', client);
                 });
             }
         },
@@ -49,7 +49,7 @@ export default Ember.ArrayController.extend({
                     this.store.find('client', clientId).then(function(client) {
                         client.destroyRecord();
                         self.set('selectedId', null);
-                        self.set('editingClient', null);
+                        self.set('editingObj', null);
                     });
                 }
             }
@@ -63,18 +63,18 @@ export default Ember.ArrayController.extend({
             };
             var onFail = function(client) {
                 console.log('save failed.');
-                self.get('editingClient').rollback();
+                self.get('editingObj').rollback();
             };
-            this.get('editingClient').save().then(onSuccess, onFail);
+            this.get('editingObj').save().then(onSuccess, onFail);
         },
 
         cancel: function() {
             var self = this;
             this.set('isEditing', false);
-            var client = this.get('editingClient');
+            var client = this.get('editingObj');
             if (client.get('isNew')) {
                 self.set('selectedId', null);
-                self.set('editingClient', null);
+                self.set('editingObj', null);
             }
             client.rollback();
         },

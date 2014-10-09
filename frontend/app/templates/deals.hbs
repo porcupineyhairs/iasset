@@ -41,19 +41,19 @@
           <div class="form-group">
             <label for="inputName" class="col-sm-2 control-label">对手方</label>
             <div class="col-sm-10">
-              {{input type="text" class="form-control" id="inputName" value=editingDeal.name}}
+              {{input type="text" class="form-control" id="inputName" value=editingObj.counterpartyName}}
             </div>
           </div>
 
           <div class="form-group">
             <label for="inputDealDate" class="col-sm-2 control-label">交易日期</label>
             <div class="col-sm-4" id="dealDatePicker">
-              {{date-picker-input id="inputDealDate" class="form-control" controls="dealDatePickerControll" value=editingDeal.dealDate}}
+              {{date-picker-input id="inputDealDate" class="form-control" controls="dealDatePickerControll" value=editingObj.dealDate}}
               {{date-picker-controls id="dealDatePickerControll"}}
             </div>
             <label for="inputExpiryDate" class="col-sm-2 control-label">到期日</label>
             <div class="col-sm-4" id="expiryDatePicker">
-              {{date-picker-input id="inputExpiryDate" class="form-control" controls="expiryDatePickerControll" value=editingDeal.expiryDate}}
+              {{date-picker-input id="inputExpiryDate" class="form-control" controls="expiryDatePickerControll" value=editingObj.expiryDate}}
               {{date-picker-controls id="expiryDatePickerControll"}}
             </div>
           </div>
@@ -61,12 +61,12 @@
           <div class="form-group">
             <label for="inputUnderlying" class="col-sm-2 control-label">标的</label>
             <div class="col-sm-4">
-              {{input type="text" class="form-control" id="inputUnderlying" value=editingDeal.underlying}}
+              {{input type="text" class="form-control" id="inputUnderlying" value=editingObj.ulSymbol}}
             </div>
 
             <label for="inputUnderlyingQty" class="col-sm-2 control-label">数量</label>
             <div class="col-sm-4">
-              {{input type="text" class="form-control" id="inputUnderlyingQty" value=editingDeal.underlyingQty}}
+              {{input type="text" class="form-control" id="inputUnderlyingQty" value=editingObj.ulQuantity}}
             </div>
           </div>
 

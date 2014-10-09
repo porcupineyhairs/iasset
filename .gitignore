@@ -1,6 +1,7 @@
 *.swp
 *.swo
 *.log
+*.pyc
 */.ropeproject
 */.ropeproject/*
 .DS_Store
