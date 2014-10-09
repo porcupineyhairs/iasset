@@ -19,6 +19,7 @@ export default Ember.Controller.extend(LoginControllerMixin, {
                 function(userModel) {
                     if (userModel.content.length > 0) {
                         var user = userModel.content[0];
+                        console.log('user:........', user.get("password"), user.get("username"));
                         if (window.md5(loginInfo.password) === user.get('password')) {
                             self.loginSuccess(user);
                             return;

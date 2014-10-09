@@ -24,6 +24,7 @@ export default Ember.ArrayController.extend({
         create: function() {
             this.set('isEditing', true);
             var client = this.store.createRecord('client', { });
+            console.log(client);
             this.set('editingClient', client);
             this.set('selectedId', client.get('id'));
             client.set('name', '新客户' + client.get('id'));
@@ -41,37 +42,41 @@ export default Ember.ArrayController.extend({
         },
         
         remove: function() {
+            var self = this;
             if (window.confirm('删除该客户资料？')) {
                 var clientId = this.get('selectedId');
                 if (clientId) {
                     this.store.find('client', clientId).then(function(client) {
                         client.destroyRecord();
-                        this.set('selectedId', null);
-                        this.set('editingClient', null);
+                        self.set('selectedId', null);
+                        self.set('editingClient', null);
                     });
                 }
             }
         },
 
         acceptChanges: function() {
+            var self = this;
             this.set('isEditing', false);
-            this.get('model').save();
+            var onSuccess = function(client) {
+                console.log('save success.');
+            };
+            var onFail = function(client) {
+                console.log('save failed.');
+                self.get('editingClient').rollback();
+            };
+            this.get('editingClient').save().then(onSuccess, onFail);
         },
 
         cancel: function() {
             var self = this;
             this.set('isEditing', false);
-            var clientId = this.get('selectedId');
-            // TODO there is a bug here, after some cancel, the button may be wrongly disabled
-            if (clientId) {
-                this.store.find('client', clientId).then(function(client) {
-                    if (client.get('isNew')) {
-                        self.set('selectedId', null);
-                        self.set('editingClient', null);
-                    }
-                    client.rollback();
-                });
+            var client = this.get('editingClient');
+            if (client.get('isNew')) {
+                self.set('selectedId', null);
+                self.set('editingClient', null);
             }
+            client.rollback();
         },
     }
 });
