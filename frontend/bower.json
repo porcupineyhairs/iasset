@@ -19,6 +19,7 @@
     "ember-addons.bs_for_ember": null,
     "ember-date-picker": null,
     "JavaScript-MD5": null,
+    "momentjs": null,
     "morrisjs": null,
     "raphael": null,
     "ember-simple-auth": "0.6.6"
