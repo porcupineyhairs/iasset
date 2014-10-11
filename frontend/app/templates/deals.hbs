@@ -42,7 +42,7 @@
           <div class="form-group">
             <label for="inputDealType" class="col-sm-2 control-label">交易类型</label>
             <div class="col-sm-10">
-              {{spin-box content=controller.dealTypes visibleRows=1 circular=false value=editingObj.dealType}}
+              {{view Ember.Select2 id='select1' content=controller.dealTypes value=editingObj.dealType}}
             </div>
           </div>
 

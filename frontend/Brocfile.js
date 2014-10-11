@@ -22,6 +22,8 @@ app.import('bower_components/bootstrap/dist/css/bootstrap.min.css');
 app.import('bower_components/fontawesome/css/font-awesome.min.css');
 app.import('bower_components/ember-spin-box/dist/ember-spin-box.min.css');
 app.import('bower_components/ember-date-picker/dist/ember-date-picker.min.css');
+app.import('bower_components/select2/select2.css');
+app.import('bower_components/select2/select2-bootstrap.css');
 app.import('bower_components/morrisjs/morris.css');
 app.import('bower_components/fontawesome/fonts/fontawesome-webfont.woff', { destDir: 'fonts' });
 app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', { destDir: 'fonts' });
@@ -37,6 +39,7 @@ app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
 app.import('bower_components/momentjs/min/moment.min.js');
 app.import('bower_components/ember-spin-box/dist/ember-spin-box.min.js');
 app.import('bower_components/ember-date-picker/dist/ember-date-picker.min.js');
+app.import('bower_components/select2/select2.min.js');
 app.import('bower_components/morrisjs/morris.min.js');
 app.import('bower_components/raphael/raphael-min.js');
 

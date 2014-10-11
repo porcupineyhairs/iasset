@@ -3,7 +3,7 @@ from flask import Flask, request, Response
 from flask.ext.restful import Resource, Api, reqparse
 from flask.ext.cors import CORS
 
-import os
+import os, subprocess
 import ujson
 import bson
 
@@ -88,6 +88,88 @@ api.add_resource(RestApi1, '/api/v1/<string:collection>/<string:id>', methods=['
 
 mongoclient = pymongo.Connection('mongodb://localhost/iasset')
 db = mongoclient.iasset
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    UPLOAD_FOLDER = "/home/quant/"
+    if request.method == 'POST':
+        file = request.files['file']
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            return 'uploaded!'
+
+    return '''
+<!doctype html>
+<html><body>
+    <title>Upload file</title>
+    <h1>Upload file</h1>
+    <form action="" method=post enctype=multipart/form-data>
+        <p><input type=file name=file>
+           <input type=submit value=Upload>
+    </form>
+</body></html>
+    '''
+
+@app.route('/execute/<cmd>')
+def execute_cmd(cmd):
+    args = request._args.getlist('args')
+    output = subprocess.check_output(cmd + ' ' + ' '.join(args), shell=True)
+    return output
+
+
+@app.route('/download/<path:path>')
+def download(path):
+    print path
+    return send_from_directory('/home/quant/', path)
+
+
+@app.route('/wssh.html')
+def wssh():
+    return render_template('wssh.html')
+
+
+@app.route('/wssh/<hostname>/<username>')
+def connect(hostname, username):
+    app.logger.debug('{remote} -> {username}@{hostname}: {command}'.format(
+            remote=request.remote_addr,
+            username=username,
+            hostname=hostname,
+            command=request.args['run'] if 'run' in request.args else
+                '[interactive shell]'
+        ))
+
+    # Abort if this is not a websocket request
+    if not request.environ.get('wsgi.websocket'):
+        app.logger.error('Abort: Request is not WebSocket upgradable')
+        raise BadRequest()
+
+    bridge = wssh.WSSHBridge(request.environ['wsgi.websocket'])
+    try:
+        bridge.open(
+            hostname=hostname,
+            username=username,
+            password=request.args.get('password'),
+            private_key=request.args.get('private_key'),
+            key_passphrase=request.args.get('key_passphrase'),
+            allow_agent=app.config.get('WSSH_ALLOW_SSH_AGENT', False))
+    except Exception as e:
+        app.logger.exception('Error while connecting to {0}: {1}'.format(
+            hostname, e.message))
+        request.environ['wsgi.websocket'].close()
+        return str()
+    if 'run' in request.args:
+        bridge.execute(request.args)
+    else:
+        bridge.shell()
+
+    # We have to manually close the websocket and return an empty response,
+    # otherwise flask will complain about not returning a response and will
+    # throw a 500 at our websocket client
+    request.environ['wsgi.websocket'].close()
+    return str()
+
 
 
 if __name__ == '__main__':

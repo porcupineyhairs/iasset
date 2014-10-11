@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/zsh
 
 IASSET_HOME=$HOME/workspace
 
@@ -11,12 +11,28 @@ start() {
 
 }
 
+deploy() {
+    cd $IASSET_HOME/frontend
+    rm -rf dist
+    ember build
+    tar cf iasset_frontend.tar.gz dist
+    curl -i -F "file=@iasset_frontend.tar.gz" http://58.251.151.194:8210/upload
+    rm iasset_frontend.tar.gz
+    cd $IASSET_HOME
+
+    tar cf iasset_backend.tar.gz backend
+    curl -i -F "file=@iasset_backend.tar.gz" http://58.251.151.194:8210/upload
+    rm iasset_backend.tar.gz
+}
+
 main() {
 	cmd=$1
     if [[ $cmd = 'init' ]]; then
     	init
     elif [[ $cmd = 'start' ]]; then
     	start
+    elif [[ $cmd = 'deploy' ]]; then
+        deploy
     fi
 }
 

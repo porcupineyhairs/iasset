@@ -20,6 +20,24 @@ Ember.RadioButton = Ember.View.extend({
     }.property()
 });
 
+Ember.Select2 = Ember.Select.extend({
+    // prompt: 'Please select...',
+    // classNames: ['input-xlarge'],
+
+    didInsertElement: function() {
+        Ember.run.scheduleOnce('afterRender', this, 'processChildElements');
+    },
+
+    processChildElements: function() {
+        $().select2({
+        });
+    },
+
+    willDestroyElement: function() {
+        Ember.$.select2('destroy');
+    },
+});
+
 Ember.Application.initializer({
     name: 'authentication',
     before: 'simple-auth',

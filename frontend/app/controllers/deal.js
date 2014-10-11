@@ -2,6 +2,7 @@
 import Ember from 'ember';
 import App from 'iasset/app';
 
+/* global moment */
 export default Ember.ObjectController.extend({
     quote: function() {
         var self = this;
@@ -14,7 +15,6 @@ export default Ember.ObjectController.extend({
     }.property('ulSymbol'),
 
     fee: function() {
-        return 42;
         return {
             fee1: 42
         };
@@ -48,10 +48,10 @@ export default Ember.ObjectController.extend({
         var totalMargin = this.get('margin'); // + extra margin
         var nominalValue = this.get('nominalValue');
 
-        if (dealType == '融资') {
+        if (dealType === '融资') {
             return (ulMarketValue + ulDividendValue + totalMargin) / nominalValue;
         }
-        else if (dealType == '融券') {
+        else if (dealType === '融券') {
             return totalMargin / ulMarketValue;
         }
         return 0.69;
