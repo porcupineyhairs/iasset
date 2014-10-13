@@ -18,7 +18,7 @@
             <div class="alert alert-info alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <i class="fa fa-info-circle"></i>  <strong>使用提示：</strong>
-                在这里您可以查看交易
+                在这里您可以查看交易，监控交易风险，计算费用
             </div>
         </div>
     </div>
@@ -29,7 +29,6 @@
       <div class="col-lg-12">
         <button {{action 'create'}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>新增</button>
         <button {{action 'edit'}} {{bind-attr disabled="disableEditAndRemove"}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i>修改</button>
-        <button {{action 'calcFee'}} {{bind-attr disabled="disableEditAndRemove"}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-cny"></i>计算费用</button>
         <p></p>
       </div>
     </div>
@@ -42,7 +41,7 @@
           <div class="form-group">
             <label for="inputDealType" class="col-sm-2 control-label">交易类型</label>
             <div class="col-sm-10">
-              {{view Ember.Select2 id='select1' content=controller.dealTypes value=editingObj.dealType}}
+              {{view Ember.Select id='select1' content=controller.dealTypes value=editingObj.dealType}}
             </div>
           </div>
 
@@ -89,113 +88,7 @@
     </div>
     <!-- /.row -->
 
-    <div class="row" {{bind-attr style="feeFormStyle"}}>
-      <div class="col-lg-6 breadcrumb">
-        <button type="button" {{action 'cancel'}} class="close">&times;</button>
-        <h3>计算费用</h3>
-        
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover table-striped tablesorter">
-            <thead>
-              <tr>
-                <th>费用类别</th>
-                <th>费用</th>
-              </tr>
-            </thead>
-            <tbody id="fee-list">
-              <tr>
-                <td>转让资金差额</td><td>{{input type="text" id="input0" value=controller.editingObj.alpha}}</td>
-              </tr>
-              <tr>
-                <td>回购资金差额</td><td>&nbsp</td>
-              </tr>
-              <tr>
-                <td>实际回购价款</td><td>&nbsp</td>
-              </tr>
-              <tr>
-                <td>实际回购价款预付款</td><td>&nbsp</td>
-              </tr>
-              <tr>
-                <td>剩余实际回购价款</td><td>&nbsp</td>
-              </tr>
-              <tr>
-                <td>每支付日应当支付实际回购价款预付款</td><td>&nbsp</td>
-              </tr>
-              <tr>
-                <td>信托报酬</td><td>&nbsp</td>
-              </tr>
-              <tr>
-                <td>保管费</td><td>&nbsp</td>
-              </tr>
-              <tr>
-                <td>受益人信托受益</td><td>&nbsp</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <button {{action 'editFee'}} class="btn btn-primary"><i class="fa fa-fw fa-save"></i>设置费用</button>
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">实际转让价款</label>
-            <div class="col-sm-10">
-              {{input type="text" class="form-control" id="input1" value=editingObj.ulSymbol}}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">转让费用率1</label>
-            <div class="col-sm-10">
-              {{input type="text" class="form-control" id="input2" value=editingObj.ulSymbol}}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">转让费用率2</label>
-            <div class="col-sm-10">
-              {{input type="text" class="form-control" id="input3" value=editingObj.ulSymbol}}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">大宗交易转让价款</label>
-            <div class="col-sm-10">
-              {{input type="text" class="form-control" id="input4" value=editingObj.ulSymbol}}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">大宗交易回购价款</label>
-            <div class="col-sm-10">
-              {{input type="text" class="form-control" id="input5" value=editingObj.ulSymbol}}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">转让日至回购日</label>
-            <div class="col-sm-10">
-              {{input type="text" class="form-control" id="input6" value=editingObj.ulSymbol}}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">转让日至划回转让资金差额</label>
-            <div class="col-sm-10">
-              {{input type="text" class="form-control" id="input7" value=editingObj.ulSymbol}}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button {{action 'acceptChanges'}} class="btn btn-primary"><i class="fa fa-fw fa-save"></i>保存</button>
-              <button {{action 'cancel'}} class="btn btn-primary"><i class="fa fa-fw fa-close"></i>放弃</button>
-            </div>
-          </div>
-
-        </form>
-      </div>
-    </div>
-    <!-- /.row -->
+    {{partial controller.feesType}}
 
     <div class="row">
       <div class="col-lg-12">
@@ -205,12 +98,15 @@
               <tr>
                 <th>#</th>
                 <th>交易编码 <i class="fa fa-sort"></i></th>
+                <th>类型 <i class="fa fa-sort"></i></th>
                 <th>对手方 <i class="fa fa-sort"></i></th>
                 <th>到期日 <i class="fa fa-sort"></i></th>
                 <th>标的 <i class="fa fa-sort"></i></th>
                 <th>标的数量 <i class="fa fa-sort"></i></th>
-                <th>标的最新价 <i class="fa fa-sort"></i></th>
+                <th>标的价 <i class="fa fa-sort"></i></th>
+                <th>分红 <i class="fa fa-sort"></i></th>
                 <th>Alpha <i class="fa fa-sort"></i></th>
+                <th>费用 </th>
               </tr>
             </thead>
             <tbody id="deal-list">
@@ -218,12 +114,15 @@
               <tr {{bind-attr class='deal.riskLevel'}}>
                 <td>{{view Ember.RadioButton name="dealSelection" selection=controllers.deals.selectedId valueBinding="deal.id"}}</td>
                 <td>{{deal.dealCode}}</td>
+                <td>{{deal.dealType}}</td>
                 <td>{{deal.counterpartyName}}</td>
                 <td {{bind-attr style='deal.durationStyle'}}>{{deal.expiryDate}}</td>
                 <td>{{deal.ulName}}</td>
                 <td>{{deal.ulQuantity}}</td>
                 <td>{{deal.ulLastPrice}}</td>
+                <td>{{deal.ulDividend}}</td>
                 <td>{{deal.alpha}}</td>
+                <td><button {{action 'showFees' deal.fees deal.dealType deal.id}} type="button" class="btn btn-primary">详情</button></td>
               </tr>
               {{/each}}
             </tbody>

@@ -1,0 +1,127 @@
+    <div class="row" {{bind-attr style="showFeesFormStyle"}}>
+      <div class="col-lg-6 breadcrumb">
+        <button type="button" {{action 'closeShowFeesForm'}} class="close">&times;</button>
+        <h3>费用详情 <small>deal code</small></h3>
+        
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+              <tr>
+                <th>费用类别</th>
+                <th>费用</th>
+              </tr>
+            </thead>
+            <tbody id="fee-list">
+              <tr>
+                <td>下一支付日应支付融入成本</td><td>{{currentFees.nextCost}}</td>
+              </tr>
+              <tr>
+                <td>融入成本总额</td><td>{{currentFees.cost}}</td>
+              </tr>
+              <tr>
+                <td>归还日应支付的融入成本</td><td>{{currentFees.remainingCost}}</td>
+              </tr>
+              <tr>
+                <td>担保金金额（第一次）</td><td>{{currentFees.margin1}}</td>
+              </tr>
+              <tr>
+                <td>担保金金额（第二次）</td><td>{{currentFees.margin2}}</td>
+              </tr>
+              <tr>
+                <td>担保金金额（第三次）</td><td>{{currentFees.margin3}}</td>
+              </tr>
+              <tr>
+                <td>归还担保金金额（第一次）</td><td>{{currentFees.repaidMargin1}}</td>
+              </tr>
+              <tr>
+                <td>归还担保金金额（第二次）</td><td>{{currentFees.repaidMargin2}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button {{action 'calcFee'}} {{bind-attr disabled="disableEditAndRemove"}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-cny"></i>设置费用</button>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row" {{bind-attr style="editFeesFormStyle"}}>
+      <div class="col-lg-6 breadcrumb">
+        <h3>设置费用 <small>deal code</small></h3>
+
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">大宗交易指定股份价格</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input1" value=editingObj.txnPrice}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">大宗交易指定股份数量</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input2" value=editingObj.txnQuantity}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">融入费率</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input3" value=editingObj.rate}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">融入大宗交易价款</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input4" value=editingObj.borrowTxnAmount}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">归还大宗交易价款</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input5" value=editingObj.returnTxnAmount}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">融入日至归还日存续天数</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input6" value=editingObj.daysToReturn}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">初始担保金</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input7" value=editingObj.initialMargin}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">追加担保金</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input8" value=editingObj.extraMargin}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">本支付周期天数</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input9" value=editingObj.daysOfCurrentResetCycle}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button {{action 'acceptChanges'}} class="btn btn-primary"><i class="fa fa-fw fa-save"></i>保存</button>
+              <button {{action 'cancel'}} class="btn btn-primary"><i class="fa fa-fw fa-close"></i>放弃</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <!-- /.row -->
+
+

@@ -13,11 +13,14 @@ export default Ember.ArrayController.extend({
     clientNames: [],
 
     needs: ['deals'],
+    feesType: 'fees',
     selectedId: null,
     isEditing: false,
-    isCalcFee: false,
+    isEditingFees: false,
+    isShowingFees: false,
     editingMode: '',
     editingObj: null,
+    currentFees: null,
     value1: 'abc',
 
     editButtonsStyle: function() {
@@ -28,12 +31,13 @@ export default Ember.ArrayController.extend({
         return this.get('isEditing') ? 'display: block' : 'display: none';
     }.property('isEditing'),
 
-    feeFormStyle: function() {
-        return this.get('isCalcFee') ? 'display: block' : 'display: none';
-    }.property('isCalcFee'),
+    showFeesFormStyle: function() {
+        return this.get('isShowingFees') ? 'display: block' : 'display: none';
+    }.property('isShowingFees'),
 
-    editFormTitle: function() {
-    }.property(),
+    editFeesFormStyle: function() {
+        return this.get('isEditingFees') ? 'display: block' : 'display: none';
+    }.property('isEditingFees'),
 
     disableEditAndRemove: function() {
         return this.get('selectedId') === null;
@@ -55,7 +59,8 @@ export default Ember.ArrayController.extend({
             var self = this;
             if (dealId) {
                 this.set('isEditing', true);
-                this.set('isCalcFee', false);
+                this.set('isEditingFees', false);
+                this.set('isShowingFees', false);
                 this.store.find('deal', dealId).then(function(deal) {
                     self.set('editingObj', deal);
                 });
@@ -67,7 +72,8 @@ export default Ember.ArrayController.extend({
             var self = this;
             if (dealId) {
                 this.set('isEditing', false);
-                this.set('isCalcFee', true);
+                this.set('isEditingFees', true);
+                this.set('isShowingFees', false);
                 this.store.find('deal', dealId).then(function(deal) {
                     self.set('editingObj', deal);
                 });
@@ -76,11 +82,26 @@ export default Ember.ArrayController.extend({
 
         editFee: function() {
         },
+
+        showFees: function(fees, dealType, dealId) {
+            this.set('isEditing', false);
+            this.set('isEditingFees', false);
+            this.set('isShowingFees', true);
+
+            this.set('feesType', 'fees/' + dealType);
+            this.set('currentFees', fees);
+            this.set('selectedId', dealId);
+        },
+
+        closeShowFeesForm: function() {
+            this.set('isShowingFees', false);
+        },
         
         acceptChanges: function() {
             var self = this;
             this.set('isEditing', false);
-            this.set('isCalcFee', false);
+            this.set('isEditingFees', false);
+            this.set('isShowingFees', false);
             var onSuccess = function(deal) {
                 console.log('save success.');
             };
@@ -92,10 +113,10 @@ export default Ember.ArrayController.extend({
         },
 
         cancel: function() {
-            console.log('.............. cancel...............');
             var self = this;
             this.set('isEditing', false);
-            this.set('isCalcFee', false);
+            this.set('isEditingFees', false);
+            this.set('isShowingFees', false);
             var deal = this.get('editingObj');
             if (deal.get('isNew')) {
                 self.set('selectedId', null);

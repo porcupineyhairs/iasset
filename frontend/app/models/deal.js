@@ -13,6 +13,24 @@ var Deal = DS.Model.extend({
     dangerLevel: DS.attr('number'),
     nominalValue: DS.attr('number'),
     margin: DS.attr('number'),
+
+    nominalTransferAmount: DS.attr('number'),
+    transferFee1: DS.attr('number'),
+    transferFee2: DS.attr('number'),
+    transferTxnAmount: DS.attr('number'),
+    repoTxnAmount: DS.attr('number'),
+    daysToRepo: DS.attr('number'),
+    daysToTxnPayback: DS.attr('number'),
+    daysOfCurrentResetCycle: DS.attr('number'),
+
+    txnPrice: DS.attr('number'),
+    txnQuantity: DS.attr('number'),
+    rate: DS.attr('number'),
+    borrowTxnAmount: DS.attr('number'),
+    returnTxnAmount: DS.attr('number'),
+    daysToReturn: DS.attr('number'),
+    initialMargin: DS.attr('number'),
+    secondMargin: DS.attr('number'),
 });
 
 Deal.reopenClass({

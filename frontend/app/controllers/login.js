@@ -13,13 +13,13 @@ export default Ember.Controller.extend(LoginControllerMixin, {
             this.setProperties({ showLoginFailed: false });
             var loginInfo = this.getProperties('username', 'password');
             var session = this.get('session');
+            IassetENV.session = session;
 
             var self = this;
             this.get('controllers.user').store.find('User', { username: loginInfo.username }).then(
                 function(userModel) {
                     if (userModel.content.length > 0) {
                         var user = userModel.content[0];
-                        console.log('user:........', user.get("password"), user.get("username"));
                         if (window.md5(loginInfo.password) === user.get('password')) {
                             self.loginSuccess(user);
                             return;
@@ -27,7 +27,6 @@ export default Ember.Controller.extend(LoginControllerMixin, {
                     }
                     self.loginFailed();
                 });
-
         },
     },
 

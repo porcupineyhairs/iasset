@@ -14,10 +14,65 @@ export default Ember.ObjectController.extend({
         return { name: '', lastPrice: 0.0, timeStamp: Date.now() };
     }.property('ulSymbol'),
 
-    fee: function() {
+    repoFees: function() {
+        var txnBalance = this.get('transferTxnAmount') - this.get('nominalTransferAmount');
+        var repoBalance = 0;
+        var anualizedDaysToRepo = this.get('daysToRepo') / 365;
+        var anualizedDaysToTxnPayback = this.get('daysToTxnPayback') / 365;
+        var actualRepoAmount = this.get('nominalTransferAmount') * (1 + this.get('transferFee1') * anualizedDaysToRepo)
+                             + txnBalance * this.get('tranferFee2') * anualizedDaysToTxnPayback;
+        var prepaidResetAmount = this.get('nominalTransferAmount') * this.get('transferFee1') 
+                               * this.get('daysOfCurrentResetCycle') / 365;
+        var firstPrepaidActualRepoAmount = txnBalance * this.get('tranferFee2') * anualizedDaysToTxnPayback;
+        var prepaidActualRepoAmount = this.get('nominalTransferAmount') * (1 + this.get('transferFee1') * this.get('daysOfCurrentResetCycle') / 365);
+        var remainingActualRepoAmount = 0;
+
         return {
-            fee1: 42
+            txnBalance: txnBalance,
+            repoBalance: repoBalance,
+            actualRepoAmount: actualRepoAmount,
+            firstPrepaidActualRepoAmount: firstPrepaidActualRepoAmount,
+            prepaidActualRepoAmount: prepaidActualRepoAmount,
+            remainingActualRepoAmount: remainingActualRepoAmount,
+            prepaidResetAmount: prepaidResetAmount,
+            trustFee: 0,
+            custodianFee: 0,
+            unknownFee1: 0,
         };
+    },
+
+    shortSellFees: function() {
+        var txnAmount = this.get('txnPrice') * this.get('txnQuantity');
+        var nextCost = txnAmount * this.get('rate') * this.get('daysOfCurrentResetCycle') / 365;
+        var cost = txnAmount * this.get('daysToRepo') / 365;
+        var remainingCost = 0;
+        var margin1 = this.get('initialMargin') * 0.08;
+        var margin2 = this.get('borrowTxnAmount'); 
+        var margin3 = this.get('initialMargin') - margin1 - margin2; 
+        var repaidMargin1 = this.get('returnTxnAmount');
+        var repaidMargin2 = margin1 + margin2 + margin3 + this.get('extraMargin') - repaidMargin1;
+
+        return {
+            cost: cost,
+            nextCost: nextCost,
+            remainingCost: remainingCost,
+            margin1: margin1,
+            margin2: margin2,
+            margin3: margin3,
+            repaidMargin1: repaidMargin1,
+            repaidMargin2: repaidMargin2,
+        };
+    },
+
+    fees: function() {
+        var dealType = this.get('dealType');
+        if (dealType === '融资') {
+            return this.repoFees();
+        }
+        else if (dealType === '融券') {
+            return this.shortSellFees();
+        }
+        return {};
     }.property(),
 
     // TODO these properties rely on 'quote' to update when the promise resolves, seem to be a bit hacky

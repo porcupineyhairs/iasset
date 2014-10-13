@@ -1,0 +1,126 @@
+    <div class="row" {{bind-attr style="showFeesFormStyle"}}>
+      <div class="col-lg-6 breadcrumb">
+        <button type="button" {{action 'closeShowFeesForm'}} class="close">&times;</button>
+        <h3>费用详情 <small>deal code</small></h3>
+        
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+              <tr>
+                <th>费用类别</th>
+                <th>费用</th>
+              </tr>
+            </thead>
+            <tbody id="fee-list">
+              <tr>
+                <td>转让资金差额</td><td>{{currentFees.txnBalance}}</td>
+              </tr>
+              <tr>
+                <td>回购资金差额</td><td>{{currentFees.repoBalance}}</td>
+              </tr>
+              <tr>
+                <td>实际回购价款</td><td>{{currentFees.actualRepoAmount}}</td>
+              </tr>
+              <tr>
+                <td>实际回购价款预付款</td><td>{{currentFees.prepaidActualRepoAmount}}</td>
+              </tr>
+              <tr>
+                <td>剩余实际回购价款</td><td>{{currentFees.remainingActualRepoAmount}}</td>
+              </tr>
+              <tr>
+                <td>首支付日应当支付实际回购价款预付款</td><td>{{currentFees.firstPrepaidActualRepoAmount}}</td>
+              </tr>
+              <tr>
+                <td>每支付日应当支付实际回购价款预付款</td><td>{{currentFees.prepaidResetAmount}}</td>
+              </tr>
+              <tr>
+                <td>信托报酬</td><td>{{currentFees.trustFee}}</td>
+              </tr>
+              <tr>
+                <td>保管费</td><td>{{currentFees.custodianFee}}</td>
+              </tr>
+              <tr>
+                <td>受益人信托收益</td><td>{{currentFees.unknownFee1}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button {{action 'calcFee'}} {{bind-attr disabled="disableEditAndRemove"}} type="button" class="btn btn-primary"><i class="fa fa-fw fa-cny"></i>设置费用</button>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row" {{bind-attr style="editFeesFormStyle"}}>
+      <div class="col-lg-6 breadcrumb">
+        <h3>设置费用 <small>deal code</small></h3>
+
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">实际转让价款</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input1" value=editingObj.nominalTransferAmount}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">转让费用率1</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input2" value=editingObj.transferFee1}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">转让费用率2</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input3" value=editingObj.transferFee2}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">大宗交易转让价款</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input4" value=editingObj.transferTxnAmount}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">大宗交易回购价款</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input5" value=editingObj.repoTxnAmount}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">转让日至回购日存续天数</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input6" value=editingObj.daysToRepo}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">转让日至划回转让资金差额日天数</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input7" value=editingObj.daysToTxnPayback}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">本支付周期天数</label>
+            <div class="col-sm-10">
+              {{input type="text" class="form-control" id="input8" value=editingObj.daysOfCurrentResetCycle}}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button {{action 'acceptChanges'}} class="btn btn-primary"><i class="fa fa-fw fa-save"></i>保存</button>
+              <button {{action 'cancel'}} class="btn btn-primary"><i class="fa fa-fw fa-close"></i>放弃</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <!-- /.row -->
+
+

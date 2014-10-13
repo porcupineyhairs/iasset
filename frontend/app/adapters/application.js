@@ -2,8 +2,8 @@
 import DS from 'ember-data';
 
 var IAssetAdapter = DS.RESTAdapter.extend({
-    host: 'http://localhost:5000',
-    //host: document.location.host,
+    //host: 'http://localhost:5000',
+    host: document.location.host,
     namespace: 'api/v1',
 });
 
