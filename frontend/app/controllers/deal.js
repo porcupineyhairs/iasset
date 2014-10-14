@@ -109,7 +109,7 @@ export default Ember.ObjectController.extend({
         else if (dealType === '融券') {
             return totalMargin / ulMarketValue;
         }
-        return 0.69;
+        return NaN;
     }.property('ulLastPrice'),
 
     durationStyle: function() {

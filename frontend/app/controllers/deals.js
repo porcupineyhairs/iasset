@@ -12,6 +12,7 @@ export default Ember.ArrayController.extend({
     },
     dateFormat: 'YYYY-MM-DD',
     dealTypes: ['融资', '融券'],
+    selectedClient: null,
 
     clients: function() {
         return this.get('controllers.clients').store.findAll('client');

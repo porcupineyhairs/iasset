@@ -41,22 +41,29 @@
           <div class="form-group">
             <label for="inputDealType" class="col-sm-2 control-label">交易类型</label>
             <div class="col-sm-10">
-              {{view Ember.Select id='dealType' content=controller.dealTypes value=editingObj.dealType}}
-              <script>$('#dealType').select2({width:'300px'})</script>
+              {{view Ember.Select id='dealType' 
+                                  content=controller.dealTypes
+                                  value=editingObj.dealType
+               }}
 
             </div>
           </div>
 
           <div class="form-group">
             <label for="inputName" class="col-sm-2 control-label">对手方</label>
-            <div class="col-sm-10">
+            <div class="col-sm-4">
               {{view Ember.Select id="counterpartyName"
                                   content=controller.clients
                                   optionLabelPath="content.name"
                                   optionValuePath="content.name"
-                                  value=editingObj.counterpartyName}}
+                                  value=editingObj.counterpartyName
+               }}
 
-              <script>$('#counterpartyName').select2({width:'300px'})</script>
+            </div>
+
+            <label for="inputDealCode" class="col-sm-2 control-label">交易编码</label>
+            <div class="col-sm-4">
+              {{input type="text" class="form-control" id="inputDealCode" value=editingObj.dealCode}}
             </div>
           </div>
 
@@ -98,6 +105,11 @@
           </div>
 
           <div class="form-group">
+            <label for="inputNominalValue" class="col-sm-2 control-label">合同金额</label>
+            <div class="col-sm-4">
+              {{input type="text" class="form-control" id="inputNominalValue" value=editingObj.nominalValue}}
+            </div>
+
             <label for="inputUnderlying" class="col-sm-2 control-label">追加保证金</label>
             <div class="col-sm-4">
               {{input type="text" class="form-control" id="inputMargin" value=editingObj.margin}}
