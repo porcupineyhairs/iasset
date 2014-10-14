@@ -86,8 +86,33 @@ class RestApi(Resource):
         del obj['_id']
         return { key: obj }, 201
 
+
 class RestApi1(RestApi):
     pass
+
+
+class SigninApi(RestApi):
+    def post(self):
+        from md5 import md5
+        hasher = md5()
+        loginReq = ujson.loads(request.data)
+        user = db.users.find_one({'username': loginReq['username']})
+        hasher.update(loginReq['password'])
+        print hasher.hexdigest(), user['password']
+        if (hasher.hexdigest() == user['password']):
+            user['id'] = str(user['_id'])
+            del user['_id']
+            return {'user': user, 'token': '42'}, 200
+        else:
+            return {}, 505
+
+    def options(self):
+        resp = Response()
+        resp.headers.add('Access-Control-Allow-Origin', '*')
+        resp.headers.add('Access-Control-Allow-Methods', 'POST')
+        resp.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        return resp
+
 
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
@@ -192,6 +217,7 @@ if __name__ == '__main__':
     import config
     api.add_resource(RestApi, '/api/v1/<string:collection>', methods=['GET', 'POST', 'OPTIONS'])
     api.add_resource(RestApi1, '/api/v1/<string:collection>/<string:id>', methods=['OPTIONS', 'PUT', 'DELETE'])
+    api.add_resource(SigninApi, '/signin', methods=['OPTIONS', 'POST'])
 
     mongoclient = pymongo.Connection(config.MONGO_PATH)
     db = mongoclient.iasset

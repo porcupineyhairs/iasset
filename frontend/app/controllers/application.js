@@ -6,18 +6,20 @@ export default Ember.ObjectController.extend({
     needs: ['user', 'login'],
 
     userDisplayName: function() {
-        // var session = IassetENV.session;
-        // console.log('session', IassetENV.session);
-        if (IassetENV.session) {
+        var session = this.get('session');
+        if (session) {
             var user = session.get('user');
-            var displayName = user.get('displayName');
-            if (!displayName || displayName === "") {
-                displayName = user.get('username');
+            console.log(user);
+            if (user) {
+                var displayName = user.displayName;
+                if (!displayName || displayName === "") {
+                    displayName = user.username;
+                }
+                return displayName;
             }
-            return displayName;
         }
         return '';
-    }.property(),
+    }.property('session.user'),
 
     actions: {
     },

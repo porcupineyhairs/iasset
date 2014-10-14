@@ -18,6 +18,11 @@
       window.IassetENV = {{ENV}};
       window.ENV = window.IassetENV;
       window.EmberENV = window.IassetENV.EmberENV;
+
+      window.ENV['simple-auth'] = { authorizer: 'authorizer:token' };
+      window.ENV['simple-auth-token'] = {
+          serverTokenEndpoint: 'http://localhost:8080/signin',
+      };
     </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/iasset.js"></script>
