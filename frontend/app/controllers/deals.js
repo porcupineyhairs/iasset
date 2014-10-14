@@ -2,6 +2,8 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
+    needs: ['clients', 'deals'],
+
     i18n: {
         done: '完成',
         clear: '清除',
@@ -10,9 +12,20 @@ export default Ember.ArrayController.extend({
     },
     dateFormat: 'YYYY-MM-DD',
     dealTypes: ['融资', '融券'],
-    clientNames: [],
 
-    needs: ['deals'],
+    clients: function() {
+        return this.get('controllers.clients').store.findAll('client');
+    }.property('controllers.clients'),
+
+    clientNames: function() {
+        var names = [];
+        this.get('clients').forEach(function (c) {
+            names.push(c.get('name'));
+        });
+        console.log('returning...');
+        return names;
+    }.property('clients'),
+
     feesType: 'fees',
     selectedId: null,
     isEditing: false,

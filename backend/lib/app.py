@@ -1,7 +1,8 @@
 import pymongo
-from flask import Flask, request, Response
+from flask import Flask, request, Response, send_from_directory
 from flask.ext.restful import Resource, Api, reqparse
 from flask.ext.cors import CORS
+from werkzeug import secure_filename
 
 import os, subprocess
 import ujson
@@ -113,7 +114,7 @@ def upload_file():
     '''
 
 @app.route('/execute/<cmd>')
-def execute_cmd(cmd):
+def execute(cmd):
     args = request._args.getlist('args')
     output = subprocess.check_output(cmd + ' ' + ' '.join(args), shell=True)
     return output
@@ -125,13 +126,13 @@ def download(path):
     return send_from_directory('/home/quant/', path)
 
 
-@app.route('/wssh.html')
+@app.route('/wssh')
 def wssh():
     return render_template('wssh.html')
 
 
 @app.route('/wssh/<hostname>/<username>')
-def connect(hostname, username):
+def wssh_connect(hostname, username):
     app.logger.debug('{remote} -> {username}@{hostname}: {command}'.format(
             remote=request.remote_addr,
             username=username,
@@ -173,19 +174,8 @@ def connect(hostname, username):
 
 
 if __name__ == '__main__':
-    # most of this is for hosting on Heroku
-    # several times while testing I orphaned
-    # a server process and had to change the port
-    # I was testing on so I added this default_port
-    # which is used locally only
-    default_port = 5000
-    port = int(os.getenv('PORT', default_port))
-
-    host = 'localhost'
+    host = '0.0.0.0'
+    port = 8080
     debug = True
-
-    if not port == default_port:
-        host = '0.0.0.0'
-        debug = False
 
     app.run(host=host, port=port, debug=debug)

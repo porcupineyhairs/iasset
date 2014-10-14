@@ -1,36 +1,61 @@
-#!/bin/zsh
+#!/bin/bash
 
-IASSET_HOME=$HOME/workspace
+IASSET_HOME=$HOME/iasset
+CURR_DIR=$IASSET_HOME/curr
+VAR_DIR=$IASSET_HOME/var
 
-init() {
-	parts start redis
-    nohup $IASSET_HOME/bin/webdis > /dev/null &
+function start() {
+    cd $IASSET_HOME
+    export PYTHONPATH=$IASSET_HOME:$CURR_DIR/lib
+    nohup python $CURR_DIR > $VAR_DIR/run/iasset.out 2>&1 &
+    echo $! > $VAR_DIR/run/iasset.pid
 }
 
-start() {
-
+function stop() {
+    kill `cat $VAR_DIR/run/iasset.pid`
+    rm $VAR_DIR/run/iasset.pid
 }
 
-deploy() {
+function build() {
+    BUILD_DIR=$IASSET_HOME/build
+    rm -rf $BUILD_DIR
+    mkdir $BUILD_DIR
+
+    # build frontend
     cd $IASSET_HOME/frontend
     rm -rf dist
     ember build
-    tar cf iasset_frontend.tar.gz dist
-    curl -i -F "file=@iasset_frontend.tar.gz" http://58.251.151.194:8210/upload
-    rm iasset_frontend.tar.gz
-    cd $IASSET_HOME
+    mv dist/* $BUILD_DIR
 
-    tar cf iasset_backend.tar.gz backend
-    curl -i -F "file=@iasset_backend.tar.gz" http://58.251.151.194:8210/upload
-    rm iasset_backend.tar.gz
+    # build backend
+    cd $IASSET_HOME/backend
+    cp -r * $BUILD_DIR
+
+    # make package
+    cd $BUILD_DIR
+    zip -r iasset.zip .
+    cd $IASSET_HOME
 }
 
-main() {
-	cmd=$1
-    if [[ $cmd = 'init' ]]; then
-    	init
-    elif [[ $cmd = 'start' ]]; then
-    	start
+function upload() {
+    cd $IASSET_HOME
+    curl -i -F "file=@build/iasset.zip" http://58.251.151.194:8210/upload
+}
+
+function deploy() {
+    echo 'deploy...'
+}
+
+function main() {
+    cmd=$1
+    if [[ $cmd = 'start' ]]; then
+        start
+    elif [[ $cmd = 'stop' ]]; then
+        stop
+    elif [[ $cmd = 'build' ]]; then
+        build
+    elif [[ $cmd = 'upload' ]]; then
+        upload
     elif [[ $cmd = 'deploy' ]]; then
         deploy
     fi

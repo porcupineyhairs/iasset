@@ -7,7 +7,6 @@ var Deal = DS.Model.extend({
     dealDate: DS.attr('string'),
     expiryDate: DS.attr('string'),
     ulSymbol: DS.attr('string'),
-    ulName: DS.attr('string'),
     ulQuantity: DS.attr('number'),
     warningLevel: DS.attr('number'),
     dangerLevel: DS.attr('number'),

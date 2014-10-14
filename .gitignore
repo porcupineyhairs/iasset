@@ -2,7 +2,9 @@
 *.swo
 *.log
 *.pyc
+.ropeproject
 */.ropeproject
 */.ropeproject/*
 .DS_Store
-
+build
+build/*
