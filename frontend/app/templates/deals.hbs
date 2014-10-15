@@ -1,3 +1,11 @@
+<script>
+    $(document).ready(
+        function() {
+            console.log('document ready');
+            $("#dealList").tablesorter();
+        }
+    )
+</script>
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="row">
@@ -133,20 +141,20 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="table-responsive">
-          <table class="table table-bordered table-hover table-striped tablesorter">
+          <table id="dealList" class="table table-bordered table-hover table-striped tablesorter">
             <thead>
               <tr>
                 <th>#</th>
-                <th>交易编码 <i class="fa fa-sort"></i></th>
-                <th>类型 <i class="fa fa-sort"></i></th>
-                <th>状态 <i class="fa fa-sort"></i></th>
-                <th>对手方 <i class="fa fa-sort"></i></th>
-                <th>到期日 <i class="fa fa-sort"></i></th>
-                <th>标的 <i class="fa fa-sort"></i></th>
-                <th>标的数量 <i class="fa fa-sort"></i></th>
-                <th>标的价 <i class="fa fa-sort"></i></th>
-                <th>分红 <i class="fa fa-sort"></i></th>
-                <th>Alpha <i class="fa fa-sort"></i></th>
+                <th>交易编码 </th>
+                <th>类型 </th>
+                <th>状态 </th>
+                <th>对手方 </th>
+                <th>到期日 </th>
+                <th>标的 </th>
+                <th>标的数量 </th>
+                <th>标的价 </th>
+                <th>分红 </th>
+                <th>Alpha </th>
                 <th>费用 </th>
               </tr>
             </thead>

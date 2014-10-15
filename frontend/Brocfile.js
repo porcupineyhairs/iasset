@@ -30,6 +30,10 @@ app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.w
 
 // ----- vendor js imports ----- //
 app.import('bower_components/jquery/dist/jquery.min.js');
+app.import('bower_components/jquery.tablesorter/js/jquery.tablesorter.min.js')
+app.import('bower_components/jquery.tablesorter/js/jquery.tablesorter.widgets.min.js')
+app.import('bower_components/jquery-timeago/jquery.timeago.js')
+app.import('bower_components/jquery-timeago/locales/jquery.timeago.zh-CN.js')
 app.import('bower_components/ic-ajax/dist/globals/main.js');
 app.import('bower_components/ember-addons.bs_for_ember/dist/js/bs-core.min.js');
 app.import('bower_components/ember-addons.bs_for_ember/dist/js/bs-button.min.js');
