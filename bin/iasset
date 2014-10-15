@@ -24,7 +24,7 @@ function build() {
     # build frontend
     cd $IASSET_HOME/frontend
     rm -rf dist
-    ember build
+    ember build --environment=development
     mv dist/* $BUILD_DIR
 
     # build backend

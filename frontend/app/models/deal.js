@@ -3,6 +3,7 @@ import DS from 'ember-data';
 var Deal = DS.Model.extend({
     dealCode: DS.attr('string'),
     dealType: DS.attr('string'),
+    dealStatus: DS.attr('string'),
     counterpartyName: DS.attr('string'),
     dealDate: DS.attr('string'),
     expiryDate: DS.attr('string'),

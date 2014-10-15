@@ -1,9 +1,9 @@
 'use strict';
 import DS from 'ember-data';
+import ENV from 'iasset/config/environment';
 
 var IAssetAdapter = DS.RESTAdapter.extend({
-    host: 'http://localhost:8080',
-    // host: document.location.host,
+    host: ENV.APP.API_HOST,
     namespace: 'api/v1',
 });
 

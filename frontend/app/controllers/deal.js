@@ -7,7 +7,7 @@ export default Ember.ObjectController.extend({
     quote: function() {
         var self = this;
         var symbol = this.get('ulSymbol');
-        App.quoter.on('quote', function() { 
+        App.quoter.on('quote', function() {
             var quote = App.quoter.getQuote(symbol);
             self.set('quote', quote);
         });
@@ -21,7 +21,7 @@ export default Ember.ObjectController.extend({
         var anualizedDaysToTxnPayback = this.get('daysToTxnPayback') / 365;
         var actualRepoAmount = this.get('nominalTransferAmount') * (1 + this.get('transferFee1') * anualizedDaysToRepo)
                              + txnBalance * this.get('tranferFee2') * anualizedDaysToTxnPayback;
-        var prepaidResetAmount = this.get('nominalTransferAmount') * this.get('transferFee1') 
+        var prepaidResetAmount = this.get('nominalTransferAmount') * this.get('transferFee1')
                                * this.get('daysOfCurrentResetCycle') / 365;
         var firstPrepaidActualRepoAmount = txnBalance * this.get('tranferFee2') * anualizedDaysToTxnPayback;
         var prepaidActualRepoAmount = this.get('nominalTransferAmount') * (1 + this.get('transferFee1') * this.get('daysOfCurrentResetCycle') / 365);
@@ -47,8 +47,8 @@ export default Ember.ObjectController.extend({
         var cost = txnAmount * this.get('daysToRepo') / 365;
         var remainingCost = 0;
         var margin1 = this.get('initialMargin') * 0.08;
-        var margin2 = this.get('borrowTxnAmount'); 
-        var margin3 = this.get('initialMargin') - margin1 - margin2; 
+        var margin2 = this.get('borrowTxnAmount');
+        var margin3 = this.get('initialMargin') - margin1 - margin2;
         var repaidMargin1 = this.get('returnTxnAmount');
         var repaidMargin2 = margin1 + margin2 + margin3 + this.get('extraMargin') - repaidMargin1;
 
@@ -76,7 +76,7 @@ export default Ember.ObjectController.extend({
     }.property(),
 
     // TODO these properties rely on 'quote' to update when the promise resolves, seem to be a bit hacky
-    // find the 'canonical' ways 
+    // find the 'canonical' ways
     ulName: function(value) {
         return this.get('quote').name;
     }.property('quote'),
@@ -103,13 +103,14 @@ export default Ember.ObjectController.extend({
         var totalMargin = this.get('margin'); // + extra margin
         var nominalValue = this.get('nominalValue');
 
+        var ret = 0;
         if (dealType === '融资') {
-            return (ulMarketValue + ulDividendValue + totalMargin) / nominalValue;
+            ret = (ulMarketValue + ulDividendValue + totalMargin) / nominalValue;
         }
         else if (dealType === '融券') {
-            return totalMargin / ulMarketValue;
+            ret = totalMargin / ulMarketValue;
         }
-        return NaN;
+        return (Math.round(ret * 100) / 100).toFixed(2);
     }.property('ulLastPrice'),
 
     durationStyle: function() {

@@ -87,7 +87,7 @@ class RestApi(Resource):
         return { key: obj }, 201
 
 
-class RestApi1(RestApi):
+class ItemApi(RestApi):
     pass
 
 
@@ -216,7 +216,7 @@ def wssh_connect(hostname, username):
 if __name__ == '__main__':
     import config
     api.add_resource(RestApi, '/api/v1/<string:collection>', methods=['GET', 'POST', 'OPTIONS'])
-    api.add_resource(RestApi1, '/api/v1/<string:collection>/<string:id>', methods=['OPTIONS', 'PUT', 'DELETE'])
+    api.add_resource(ItemApi, '/api/v1/<string:collection>/<string:id>', methods=['OPTIONS', 'PUT', 'DELETE'])
     api.add_resource(SigninApi, '/signin', methods=['OPTIONS', 'POST'])
 
     mongoclient = pymongo.Connection(config.MONGO_PATH)

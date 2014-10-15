@@ -41,7 +41,7 @@
           <div class="form-group">
             <label for="inputDealType" class="col-sm-2 control-label">交易类型</label>
             <div class="col-sm-10">
-              {{view Ember.Select id='dealType' 
+              {{view Ember.Select id='dealType'
                                   content=controller.dealTypes
                                   value=editingObj.dealType
                }}
@@ -139,6 +139,7 @@
                 <th>#</th>
                 <th>交易编码 <i class="fa fa-sort"></i></th>
                 <th>类型 <i class="fa fa-sort"></i></th>
+                <th>状态 <i class="fa fa-sort"></i></th>
                 <th>对手方 <i class="fa fa-sort"></i></th>
                 <th>到期日 <i class="fa fa-sort"></i></th>
                 <th>标的 <i class="fa fa-sort"></i></th>
@@ -155,6 +156,7 @@
                 <td>{{view Ember.RadioButton name="dealSelection" selection=controllers.deals.selectedId valueBinding="deal.id"}}</td>
                 <td>{{deal.dealCode}}</td>
                 <td>{{deal.dealType}}</td>
+                <td>{{deal.dealStatus}}</td>
                 <td>{{deal.counterpartyName}}</td>
                 <td {{bind-attr style='deal.durationStyle'}}>{{deal.expiryDate}}</td>
                 <td>{{deal.ulName}}</td>
@@ -172,4 +174,3 @@
     <!-- /.row -->
 
 </div>
-

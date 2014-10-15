@@ -4,6 +4,7 @@ import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 import Quoter from 'iasset/utils/quotes';
 import Authenticator from 'iasset/utils/authenticator';
+import ENV from 'iasset/config/environment';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
@@ -55,6 +56,8 @@ var App = Ember.Application.extend({
 loadInitializers(App, 'iasset');
 
 App.quoter = Quoter.create();
-App.quoter.start();
+if (ENV.environment === 'production') {
+    App.quoter.start();
+}
 
 export default App;
