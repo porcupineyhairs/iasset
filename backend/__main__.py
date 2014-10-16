@@ -6,6 +6,7 @@ import pymongo
 from flask import Flask, request, Response, send_from_directory, send_file
 from flask.ext.restful import Resource, Api, reqparse
 from flask.ext.cors import CORS
+from flask.ext.compress import Compress
 from werkzeug import secure_filename
 
 import subprocess
@@ -16,33 +17,17 @@ import zipfile
 
 # the application instance
 app = Flask(__name__)
+app.config['COMPRESS_DEBUG'] = True
+Compress(app)
 # the api instance
 api = Api(app)
 # cors support
 cors = CORS(app)
 
 
-class RestApi(Resource):
+class RestApiBase(Resource):
     def __init__(self):
         pass
-
-    def get(self, collection):
-        query = dict(request.args)
-        for k, v in query.iteritems():
-            query[k] = query[k][0]
-        return self.get_collection(collection, query)
-
-    def put(self, collection, id):
-        print 'put', collection, id
-        print  request.data
-        return self.put_collection(collection, id, request.data)
-
-    def delete(self, collection, id):
-        db[collection].remove(bson.ObjectId(id))
-        return {}, 204
-
-    def post(self, collection):
-        return self.post_collection(collection, request.data)
 
     def options(self, collection, id=None):
         resp = Response()
@@ -50,6 +35,17 @@ class RestApi(Resource):
         resp.headers.add('Access-Control-Allow-Methods', 'PUT, POST, DELETE')
         resp.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         return resp
+
+
+class ResourceApi(RestApiBase):
+    def get(self, collection):
+        query = dict(request.args)
+        for k, v in query.iteritems():
+            query[k] = query[k][0]
+        return self.get_collection(collection, query)
+
+    def post(self, collection):
+        return self.post_collection(collection, request.data)
 
     def get_collection(self, collection, query):
         coll = [ obj for obj in db[collection].find(query) ]
@@ -60,19 +56,6 @@ class RestApi(Resource):
         ret = { collection: coll }
         print ret
         return ret
-
-    def put_collection(self, collection, id, data):
-        data = ujson.loads(data)
-        obj = data.values()[0]
-        key = data.keys()[0]
-        query = { '_id': bson.ObjectId(id) }
-        modified_obj = db[collection].find_and_modify(query=query, update={'$set': obj}, upsert=False)
-        for k, v in modified_obj.iteritems():
-            modified_obj[k] = unicode(v)
-        modified_obj['id'] = str(id)
-        del modified_obj['_id']
-        print modified_obj
-        return { }, 201
 
     def post_collection(self, collection, data):
         data = ujson.loads(data)
@@ -87,11 +70,31 @@ class RestApi(Resource):
         return { key: obj }, 201
 
 
-class ItemApi(RestApi):
-    pass
+class ItemApi(RestApiBase):
+    def put(self, collection, id):
+        print 'put', collection, id
+        print  request.data
+        return self.put_collection(collection, id, request.data)
+
+    def delete(self, collection, id):
+        db[collection].remove(bson.ObjectId(id))
+        return {}, 204
+
+    def put_collection(self, collection, id, data):
+        data = ujson.loads(data)
+        obj = data.values()[0]
+        key = data.keys()[0]
+        query = { '_id': bson.ObjectId(id) }
+        modified_obj = db[collection].find_and_modify(query=query, update={'$set': obj}, upsert=False)
+        for k, v in modified_obj.iteritems():
+            modified_obj[k] = unicode(v)
+        modified_obj['id'] = str(id)
+        del modified_obj['_id']
+        print modified_obj
+        return { }, 201
 
 
-class SigninApi(RestApi):
+class SigninApi(RestApiBase):
     def post(self):
         from md5 import md5
         hasher = md5()
@@ -215,7 +218,7 @@ def wssh_connect(hostname, username):
 
 if __name__ == '__main__':
     import config
-    api.add_resource(RestApi, '/api/v1/<string:collection>', methods=['GET', 'POST', 'OPTIONS'])
+    api.add_resource(ResourceApi, '/api/v1/<string:collection>', methods=['GET', 'POST', 'OPTIONS'])
     api.add_resource(ItemApi, '/api/v1/<string:collection>/<string:id>', methods=['OPTIONS', 'PUT', 'DELETE'])
     api.add_resource(SigninApi, '/signin', methods=['OPTIONS', 'POST'])
 
